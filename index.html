@@ -13,15 +13,30 @@
         }
         canvas { width: 100%; height: 100%}
 
+        .info {
+                position: absolute;
+                color : white;
+                top: 10px;
+                margin-left: 10px;
+                width: 50%;
+                z-index: 100;
+                display:block;
+            }
     </style>
 </head>
 <body>
+    <div class="info">
+            <h2>Controles</h2>
+            <p>Mover para Frente: &uarr;</p>
+            <p>Mover para Trás: &darr;</p>
+            <p>Aumentar tamanho: + </p>
+            <p>Diminuir tamanho: - </p>
+        </div>
     <script src="assets/js/threejs/three.min.js"></script>
     <script src="assets/js/threejs/DDSLoader.js"></script>
     <script src="assets/js/threejs/MTLLoader.js"></script>
     <script src="assets/js/threejs/OBJLoader.js"></script>
-    <script src="assets/js/threejs/OrbitControls.js"></script>
-    
+    <script src="assets/js/threejs/OrbitControls.js"></script>   
     <script src="assets/js/scripts.js"></script>
 </body>
 </html>

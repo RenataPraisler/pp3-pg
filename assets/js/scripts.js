@@ -3,10 +3,13 @@ var container;
 var camera, scene, renderer;
 var ambientLight, pointLight;
 var controls;
+var inicialScale=1;
 
+window.addEventListener('keydown', onKeyDown, false);
 //Init Program
 init();
 animate();
+
 
 //Functions
 function init() {
@@ -69,3 +72,29 @@ function animate() {
   controls.update();
   renderer.render(scene, camera);
 }
+
+
+// Buttom Controls
+function onKeyDown(e) {
+  var stepPosition = 0.5;
+  switch (e.which) {
+    //Mover o spidermen 
+    case 38:
+      spiderman.position['z'] += stepPosition;
+    break;
+    case 40:
+      spiderman.position['z'] -= stepPosition;
+      break;
+    // Aumentar tamanho do objeto
+    case 107:
+    case 187:
+      spiderman.scale.set(inicialScale + 0.2, inicialScale + 0.2 , inicialScale + 0.2);
+      inicialScale += 0.2;
+    break;
+    //Diminuir tamanho do objeto
+    case 109:
+    case 189:
+      spiderman.scale.set(inicialScale - 0.2, inicialScale - 0.2 , inicialScale - 0.2);
+      inicialScale -= 0.2;
+    break;
+ }
