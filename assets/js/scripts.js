@@ -24,7 +24,6 @@ function init() {
     10000
   );
   camera.position.set(10, 10, 10);
-  camera.lookAt(10, 10, 10);
   scene.add(camera);
 
   //Lights
@@ -85,6 +84,13 @@ function onKeyDown(e) {
     case 40:
       spiderman.position['z'] -= stepPosition;
       break;
+    //Mudar definição de câmera
+    case 49: //camera 1
+      camera.position.set(10, 10, 10);
+    break;
+    case 50: //camera 2
+      camera.position.set(0, 20, 0);
+    break;
     // Aumentar tamanho do objeto
     case 107:
     case 187:
@@ -98,3 +104,4 @@ function onKeyDown(e) {
       inicialScale -= 0.2;
     break;
  }
+}
