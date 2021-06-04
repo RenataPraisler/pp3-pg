@@ -3,13 +3,12 @@ var container;
 var camera, scene, renderer;
 var ambientLight, pointLight;
 var controls;
-var inicialScale=1;
+var inicialScale = 1;
 
-window.addEventListener('keydown', onKeyDown, false);
+window.addEventListener("keydown", onKeyDown, false);
 //Init Program
 init();
 animate();
-
 
 //Functions
 function init() {
@@ -50,8 +49,12 @@ function init() {
         .load("base_spider_man.obj", function (object) {
           spiderman = object;
           scene.add(spiderman);
-          spiderman.position.set(0, 0, 0);
+          spiderman.position["x"] = 0;
+          spiderman.position["y"] = 0;
+          spiderman.position["z"] = 0;
           spiderman.rotation.y = 0;
+
+          console.log(spiderman.matrix);
         });
     });
   // Create Render
@@ -72,36 +75,57 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-
 // Buttom Controls
 function onKeyDown(e) {
   var stepPosition = 0.5;
+
+  var scaleResize = {
+    x: 0.2,
+    y: 0.2,
+    z: 0.2,
+  };
+
   switch (e.which) {
-    //Mover o spidermen 
+    //Mover o spidermen para frente
     case 38:
-      spiderman.position['z'] += stepPosition;
-    break;
+      spiderman.position["z"] += stepPosition;
+      break;
+    //Mover o spidermen para tras
     case 40:
-      spiderman.position['z'] -= stepPosition;
+      spiderman.position["z"] -= stepPosition;
       break;
     //Mudar definição de câmera
     case 49: //camera 1
-      camera.position.set(10, 10, 10);
-    break;
+      camera.position["x"] = 10;
+      camera.position["y"] = 10;
+      camera.position["z"] = 10;
+      break;
     case 50: //camera 2
-      camera.position.set(0, 20, 0);
-    break;
+      camera.position["x"] = 0;
+      camera.position["y"] = 20;
+      camera.position["z"] = 0;
+      break;
     // Aumentar tamanho do objeto
     case 107:
     case 187:
-      spiderman.scale.set(inicialScale + 0.2, inicialScale + 0.2 , inicialScale + 0.2);
-      inicialScale += 0.2;
-    break;
+      if (spiderman.position["x"] > 5) {
+        alert("Voce está no tamanho máximo");
+      } else {
+        spiderman.position["x"] += scaleResize.x;
+        spiderman.position["y"] += scaleResize.y;
+        spiderman.position["z"] += scaleResize.z;
+      }
+      break;
     //Diminuir tamanho do objeto
     case 109:
     case 189:
-      spiderman.scale.set(inicialScale - 0.2, inicialScale - 0.2 , inicialScale - 0.2);
-      inicialScale -= 0.2;
-    break;
- }
+      if (spiderman.position["x"] <= 0) {
+        alert("Voce está no tamanho mínimo");
+      } else {
+        spiderman.position["x"] -= scaleResize.x;
+        spiderman.position["y"] -= scaleResize.y;
+        spiderman.position["z"] -= scaleResize.z;
+      }
+      break;
+  }
 }
