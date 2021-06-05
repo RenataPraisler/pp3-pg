@@ -13,3 +13,4 @@ Para rodar o projeto é necessário ter um web service, como por exemplo o XAMPP
    $ five-server . -p 8000
    ```
 4. A aplicação ira abrir automaticamente no seu navegador.
+5. Para a rasterização funcionar, mude o base_url na linha 152 do arquivo /assets/js/scripts.js para a url do projeto no seu servidor WEB
