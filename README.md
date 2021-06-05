@@ -1,7 +1,8 @@
 # PP3 - Processamento Gráfico
 
-### Como executar
-	Para rodar o projeto é necessário ter um web service, como por exemplo o XAMPP ou pode seguir os passos para utilziar o five-server.
+Como executar
+Para rodar o projeto é necessário ter um web service, como por exemplo o XAMPP ou pode seguir os passos para utilziar o five-server.
+
 1. Faca o clone do repositorio
 2. Instale o [five-server](#https://www.npmjs.com/package/five-server)
    ```sh
