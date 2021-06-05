@@ -75,6 +75,17 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+function openImg() { //Exibindo objeto 3D em uma Imagem
+  var tab = window.open('', ''); //Abrindo nova guia
+  tab.document.title = "Visualização em Imagem"; //Inserindo um título na nova guia
+  
+  //Criando imagem e inserindo ela no DOM da nova aba
+  var img = new Image();
+  renderer.render(scene, camera);
+  img.src = renderer.domElement.toDataURL();
+  tab.document.body.appendChild(img);    
+}
+
 // Buttom Controls
 function onKeyDown(e) {
   var stepPosition = 0.5;
@@ -126,6 +137,10 @@ function onKeyDown(e) {
         spiderman.position["y"] -= scaleResize.y;
         spiderman.position["z"] -= scaleResize.z;
       }
+      break;
+    //Abrindo nova aba para visualizar o objeto em uma imagem
+    case 13:
+      openImg();
       break;
   }
 }
