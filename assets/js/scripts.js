@@ -142,5 +142,54 @@ function onKeyDown(e) {
     case 13:
       openImg();
       break;
+    case 82:
+      raster()
+      break;
   }
+}
+function raster(){
+
+  var base_url = 'http://localhost/pp3-pg/'
+
+  var array = []
+
+  var file = loadFile(base_url + 'assets/3D/base_spider_man/base_spider_man.obj')
+  file = file.split('\n')
+  for(i = 0; i < file.length; i++){
+    if(file[i].split(' ')[0].length == 1){
+      var split = file[i].split(' ')
+      var aux = {
+        x: Math.round((split[1]*100)),
+        y: Math.round((split[2]*100)),
+      }
+      array.push(aux)
+    }
+  }
+  file = undefined;
+  array = array.filter((obj, index, self) =>
+    index === self.findIndex((t) => (
+      t.x === obj.x && t.y === obj.y
+    ))
+  )
+  console.log(array)
+
+  var canvas = document.createElement("canvas");
+  canvas.setAttribute("width", 1000);
+  canvas.setAttribute("height", 1000);
+  canvas.setAttribute("style", "position: absolute; x:0; y:0;");
+  document.body.appendChild(canvas);
+
+  //Then you can draw a point at (10,10) like this:
+
+  var ctx = canvas.getContext("2d");
+  for(i = 0; i < array.length; i++){
+    ctx.fillRect(500-array[i].x,(500-array[i].y),10,10);
+  }
+
+  const dataUrl = canvas.toDataURL("png");
+  var iframe = "<iframe width='100%' height='100%' src='" + dataUrl + "'></iframe>"
+  console.log(dataUrl);
+  const win = window.open();
+  win.document.open();
+  win.document.write(iframe);
 }
