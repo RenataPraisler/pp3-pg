@@ -4,6 +4,7 @@ var camera, scene, renderer;
 var ambientLight, pointLight;
 var controls;
 var inicialScale = 1;
+var object = 0;
 
 window.addEventListener("keydown", onKeyDown, false);
 //Init Program
@@ -57,6 +58,31 @@ function init() {
           console.log(spiderman.matrix);
         });
     });
+
+    new THREE.MTLLoader()
+    .setPath("assets/3D/doctor_octopus/")
+    .load("octopus.mtl", function (materials) {
+      materials.preload();
+      new THREE.OBJLoader()
+        .setMaterials(materials)
+        .setPath("assets/3D/doctor_octopus/")
+        .load("octopus.obj", function (object) {
+          octopus = object;
+          scene.add(octopus);
+          octopus.position["x"] = 0;
+          octopus.position["y"] = 0;
+          octopus.position["z"] = 5;
+          octopus.rotation.y = -2;
+          octopus.scale.set(2,2,2)
+
+          console.log(octopus.matrix);
+        });
+    });
+
+    const light = new THREE.PointLight( 0xffff00, 1, 100 );
+    light.position.set( 5, 5, 5 );
+    scene.add( light );
+
   // Create Render
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor("#000");
@@ -98,12 +124,30 @@ function onKeyDown(e) {
 
   switch (e.which) {
     //Mover o spidermen para frente
+    case 84:
+      if(object == 0){
+        object = 1
+      }
+      else{
+        object = 0
+      }
+      break;
     case 38:
-      spiderman.position["z"] += stepPosition;
+      if(object == 0){
+        spiderman.position["z"] += stepPosition;
+      }
+      else{
+        octopus.position["z"] += stepPosition;
+      }
       break;
     //Mover o spidermen para tras
     case 40:
-      spiderman.position["z"] -= stepPosition;
+      if(object == 0){
+        spiderman.position["z"] -= stepPosition;
+      }
+      else{
+        octopus.position["z"] -= stepPosition;
+      }
       break;
     //Mudar definição de câmera
     case 49: //camera 1
@@ -119,23 +163,45 @@ function onKeyDown(e) {
     // Aumentar tamanho do objeto
     case 107:
     case 187:
-      if (spiderman.position["x"] > 5) {
-        alert("Voce está no tamanho máximo");
-      } else {
-        spiderman.position["x"] += scaleResize.x;
-        spiderman.position["y"] += scaleResize.y;
-        spiderman.position["z"] += scaleResize.z;
+      if(object == 0){
+        if (spiderman.position["x"] > 5) {
+          alert("Voce está no tamanho máximo");
+        } else {
+          spiderman.position["x"] += scaleResize.x;
+          spiderman.position["y"] += scaleResize.y;
+          spiderman.position["z"] += scaleResize.z;
+        }
+      }
+      else{
+        if (octopus.position["x"] > 5) {
+          alert("Voce está no tamanho máximo");
+        } else {
+          octopus.position["x"] += scaleResize.x;
+          octopus.position["y"] += scaleResize.y;
+          octopus.position["z"] += scaleResize.z;
+        }
       }
       break;
     //Diminuir tamanho do objeto
     case 109:
     case 189:
-      if (spiderman.position["x"] <= 0) {
-        alert("Voce está no tamanho mínimo");
-      } else {
-        spiderman.position["x"] -= scaleResize.x;
-        spiderman.position["y"] -= scaleResize.y;
-        spiderman.position["z"] -= scaleResize.z;
+      if(object == 0){
+        if (spiderman.position["x"] <= 0) {
+          alert("Voce está no tamanho mínimo");
+        } else {
+          spiderman.position["x"] -= scaleResize.x;
+          spiderman.position["y"] -= scaleResize.y;
+          spiderman.position["z"] -= scaleResize.z;
+        }
+      }
+      else{
+        if (octopus.position["x"] <= 0) {
+          alert("Voce está no tamanho mínimo");
+        } else {
+          octopus.position["x"] -= scaleResize.x;
+          octopus.position["y"] -= scaleResize.y;
+          octopus.position["z"] -= scaleResize.z;
+        }
       }
       break;
     //Abrindo nova aba para visualizar o objeto em uma imagem
@@ -149,7 +215,7 @@ function onKeyDown(e) {
 }
 function raster(){
 
-  var base_url = 'http://localhost/pp3-pg/'
+  var base_url = 'http://localhost:8888/pp3-pg/'
 
   var array = []
 
