@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PP3</title>
     <style>
-        body { 
-            margin: 0; 
+        body {
+            margin: 0;
             overflow-x: hidden;
             overflow-y: hidden;
         }
-        
-        canvas { 
-            width: 100%; height: 100%
+
+        canvas {
+            width: 100%;
+            height: 100%;
         }
 
         .info {
             position: absolute;
-            color : white;
+            color: white;
             top: 10px;
             margin-left: 10px;
             width: 50%;
             z-index: 100;
-            display:block;
+            display: block;
         }
     </style>
 </head>
+
 <body>
     <div class="info">
         <h2>Controles</h2>
@@ -36,16 +39,60 @@
         <p>Diminuir tamanho: - </p>
         <p>Câmera 1: 1</p>
         <p>Câmera 2: 2</p>
+        <p>Câmera 3: 3</p>
+        <p>Câmera 4: 4</p>
+        <p>Câmera 5: 5</p>
         <p>Rasterização (uma nova guia no seu navegador será aberta): R</p>
         <p>Visualizar em uma imagem (uma nova guia no seu navegador será aberta): ENTER</p>
         <p>Trocar entre os objetos: T</p>
 
     </div>
+    <script type="x-shader/-xvertex" id="vertexShader">
+        varying vec3 normalInterp;
+        varying vec3 vertPos;
+
+        void main(){
+            gl_Position = projectionMatrix* modelViewMatrix * vec4(position, 1.0);
+            vec4 vertPos4 = modelViewMatrix * vec4(position, 1.0);
+            vertPos = vec3(vertPos4) / vertPos4.w;
+            normalInterp = vec3(normalMatrix * normal);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragmentShader">
+        precision mediump float;
+
+        varying vec3 normalInterp;
+        varying vec3 vertPos;
+
+        const vec3 lightPos = vec3(0, 5, 0);
+        const vec3 ambientColor = vec3(0.1, 0.3, 0.8);
+        const vec3 diffuseColor = vec3(0.3, 0.2, 0.8);
+        const vec3 specColor = vec3(3, 3, 3);
+
+        void main() {
+            vec3 normal = normalize(normalInterp);
+            vec3 lightDir = normalize(lightPos - vertPos);
+            vec3 reflectDir = reflect(-lightDir, normal);
+            vec3 viewDir = normalize(-vertPos);
+
+            float lambertian = max(dot(lightDir,normal), 0.0);
+            float specular = 0.0;
+
+            if(lambertian > 0.0) {
+                float specAngle = max(dot(reflectDir, viewDir), 0.0);
+                specular = pow(specAngle, 4.0);
+            }
+            gl_FragColor = vec4(ambientColor + lambertian*diffuseColor +	specular*specColor, 1.0);
+        }
+    </script>
+
     <script src="assets/js/threejs/three.min.js"></script>
     <script src="assets/js/threejs/DDSLoader.js"></script>
     <script src="assets/js/threejs/MTLLoader.js"></script>
     <script src="assets/js/threejs/OBJLoader.js"></script>
-    <script src="assets/js/threejs/OrbitControls.js"></script>   
+    <script src="assets/js/threejs/OrbitControls.js"></script>
     <script src="assets/js/scripts.js"></script>
 </body>
+
 </html>
