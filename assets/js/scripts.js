@@ -79,6 +79,15 @@ function init() {
         });
     });
 
+
+    //Esfera com tonalização Phong
+    var geometrySphere = new THREE.SphereBufferGeometry(2, 40, 40);
+    var materialSphere = new THREE.MeshPhongMaterial( {color: 0x191970} );
+    sphere = new THREE.Mesh(geometrySphere, materialSphere);
+    sphere.position.set(5,0,0);
+    scene.add(sphere);
+
+
     const light = new THREE.PointLight( 0xffff00, 1, 100 );
     light.position.set( 5, 5, 5 );
     scene.add( light );
