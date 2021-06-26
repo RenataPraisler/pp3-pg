@@ -47,6 +47,8 @@ _Camera04_
 
 Com o objeto _iron-man_ temos a possibilidade de rasterização com a cor sólida preta apertando a letra R. 
 
-Nos objetos _esfera_ e _cubo_ utilizamos a tecnicas de ponto de luz e tonalização respectivamente. 
+Nos objetos _cubo_ e _esfera_ utilizamos a tecnicas de ponto de luz e tonalização de phong, respectivamente.
+
+Com esse desenvolvimento conseguimos aplicar as explicações teóricas das aulas ministradas pelo Professor Dr. Mário Lizier no projeto pp3 e pp4.
 
 
